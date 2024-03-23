@@ -1,5 +1,6 @@
 package com.devsuperior.demo.services;
 
+import com.devsuperior.demo.entities.Role;
 import com.devsuperior.demo.entities.User;
 import com.devsuperior.demo.projections.UserDetailsProjection;
 import com.devsuperior.demo.repositories.UserRepository;
@@ -27,6 +28,9 @@ public class UserService implements UserDetailsService {
         User user = new User();
         user.setEmail(username);
         user.setPassword(result.get(0).getPassword());
+        for(UserDetailsProjection projection : result){
+            user.addRole(new Role(projection.getRoleId(), projection.getAuthority()));
+        }
         return user;
     }
 }
